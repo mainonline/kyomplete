@@ -49,7 +49,11 @@ function TaskListItem(props) {
                 <SvgIcon>heroicons-outline:check-circle</SvgIcon>
               </IconButton>
             </ListItemIcon>
-            <ListItemText className={data.completed ? "line-through" : ""} classes={{ root: 'm-0', primary: 'truncate' }} primary={data.title} />
+            <ListItemText
+              className={data.completed ? 'line-through' : ''}
+              classes={{ root: 'm-0', primary: 'truncate' }}
+              primary={data.title}
+            />
 
             <ListItemText
               classes={{ root: 'm-0', primary: 'truncate' }}

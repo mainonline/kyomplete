@@ -28,12 +28,12 @@ export const getTasks = createAsyncThunk(
 export const reorderList = createAsyncThunk(
   'tasksApp/tasks/reorder',
   async ({ currentOrder, newOrder }, { dispatch, getState }) => {
+    dispatch(toggleOrder({ currentOrder, newOrder }));
     try {
       const response = await instance.patch(
         `/tasks/reorder?currentOrder=${currentOrder}&newOrder=${newOrder}`
       );
-      dispatch(toggleOrder({ currentOrder, newOrder }));
-      dispatch(getTasks());
+      dispatch(getTasks({}));
 
       const data = await response.data;
       dispatch(
@@ -79,8 +79,7 @@ const tasksSlice = createSlice({
         currentUpdate.order = newOrder;
         newUpdate.order = currentOrder;
 
-        state.data.results = updatedResults;
-        console.log(state.data.results);
+        state.data.results = updatedResults.sort((a, b) => a.order - b.order);
       }
     },
   },
