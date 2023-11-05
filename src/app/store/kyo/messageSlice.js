@@ -31,8 +31,8 @@ const messageSlice = createSlice({
 
 export const { hideMessage, showMessage } = messageSlice.actions;
 
-export const selectFuseMessageState = ({ kyo }) => kyo.message.state;
+export const selectKyoMessageState = ({ kyo }) => kyo.message.state;
 
-export const selectFuseMessageOptions = ({ kyo }) => kyo.message.options;
+export const selectKyoMessageOptions = ({ kyo }) => kyo.message.options;
 
 export default messageSlice.reducer;

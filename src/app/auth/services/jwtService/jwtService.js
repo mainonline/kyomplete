@@ -117,6 +117,23 @@ class JwtService extends EventEmitter {
     });
   };
 
+  verifyEmail = (token, code) => {
+    return new Promise((resolve, reject) => {
+      instance
+        .post(`${jwtServiceConfig.verify}?token=${token}`)
+        .then((response) => {
+          if (response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.data.error);
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
+
   updateUserData = (user) => {
     return instance.post(jwtServiceConfig.updateUser, {
       user,

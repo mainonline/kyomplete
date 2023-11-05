@@ -5,17 +5,26 @@ import _ from '@lodash';
 import { setInitialSettings } from 'app/store/kyo/settingsSlice';
 import { showMessage } from 'app/store/kyo/messageSlice';
 import settingsConfig from 'app/configs/settingsConfig';
+import instances from 'src/api';
 import jwtService from '../auth/services/jwtService';
 
 export const setUser = createAsyncThunk('user/setUser', async (user, { dispatch, getState }) => {
-  /*
-    You can redirect the logged-in user to a specific route depending on his role
-    */
   if (user.loginRedirectUrl) {
-    settingsConfig.loginRedirectUrl = user.loginRedirectUrl; // for example 'apps/academy'
+    settingsConfig.loginRedirectUrl = user.loginRedirectUrl;
   }
 
   return user;
+});
+
+export const registerUser = createAsyncThunk('user/registerUser', async (data, { dispatch }) => {
+  try {
+    const response = await instances.post('/auth/register', data);
+    const res = await response.data;
+    return res;
+  } catch (error) {
+    dispatch(showMessage({ message: error.response.data.message }));
+    return error;
+  }
 });
 
 export const updateUserSettings = createAsyncThunk(
@@ -83,5 +92,6 @@ const userSlice = createSlice({
 export const { userLoggedOut } = userSlice.actions;
 
 export const selectUser = ({ user }) => user;
+
 
 export default userSlice.reducer;

@@ -8,8 +8,8 @@ import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   hideMessage,
-  selectFuseMessageOptions,
-  selectFuseMessageState,
+  selectKyoMessageOptions,
+  selectKyoMessageState,
 } from 'app/store/kyo/messageSlice';
 import SvgIcon from '../SvgIcon';
 
@@ -46,8 +46,8 @@ const variantIcon = {
 
 function AppMessage(props) {
   const dispatch = useDispatch();
-  const state = useSelector(selectFuseMessageState);
-  const options = useSelector(selectFuseMessageOptions);
+  const state = useSelector(selectKyoMessageState);
+  const options = useSelector(selectKyoMessageOptions);
 
   return (
     <StyledSnackbar

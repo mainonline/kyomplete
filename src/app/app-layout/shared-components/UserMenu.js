@@ -40,10 +40,10 @@ function UserMenu(props) {
           </Typography>
         </div>
 
-        {user?.data?.photoURL ? (
-          <Avatar className="md:mx-4" alt="user photo" src={user.data.photoURL} />
+        {user?.image?.url ? (
+          <Avatar className="md:mx-4" alt="user photo" src={user.image.url} />
         ) : (
-          <Avatar className="md:mx-4">{user?.data?.displayName?.[0]}</Avatar>
+          <Avatar className="md:mx-4">{user?.name?.[0]}</Avatar>
         )}
       </Button>
 

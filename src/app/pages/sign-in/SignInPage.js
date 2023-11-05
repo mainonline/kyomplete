@@ -9,6 +9,8 @@ import * as yup from 'yup';
 import Paper from '@mui/material/Paper';
 import _ from '@lodash';
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
 
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -78,6 +80,12 @@ function SignInPage() {
     <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center flex-1 min-w-0 bg-white">
       <Paper className="bg-white h-full sm:h-auto md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none">
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
+          <div className="flex items-baseline mt-2 font-medium">
+            <Typography>Don't have an account?</Typography>
+            <Link className="ml-4" to="/sign-up">
+              Sign up
+            </Link>
+          </div>
           <form
             name="loginForm"
             noValidate

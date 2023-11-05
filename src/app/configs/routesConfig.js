@@ -5,7 +5,11 @@ import _ from '@lodash';
 import SignInConfig from '../pages/sign-in/SignInConfig';
 import SignUpConfig from '../pages/sign-up/SignUpConfig';
 import SignOutConfig from '../pages/sign-out/SignOutConfig';
+
+import PagesConfig from '../pages/pagesConfigs';
+
 import Error404Page from '../pages/404/Error404Page';
+import VerifyEmailPage from '../pages/verify-email/VerifyEmailPage';
 
 const setRoutes = (config, defaultAuth) => {
   let routes = [...config.routes];
@@ -34,14 +38,18 @@ const generateRoutesFromConfigs = (configs, defaultAuth) => {
   return allRoutes;
 };
 
-const routeConfigs = [SignOutConfig, SignInConfig, SignUpConfig];
+const routeConfigs = [SignOutConfig, SignInConfig, SignUpConfig, ...PagesConfig];
 
 const routes = [
   ...generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),
   {
     path: '/',
-    element: <Navigate to="/dashboard" />,
+    element: <Navigate to="/tasks" />,
     auth: settingsConfig.defaultAuth,
+  },
+  {
+    path: 'verify-email',
+    element: <VerifyEmailPage />,
   },
   {
     path: 'loading',
