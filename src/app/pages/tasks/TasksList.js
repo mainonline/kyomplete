@@ -20,7 +20,9 @@ function TasksList(props) {
   const search = useSelector(selectSearch);
   const loading = useSelector(selectLoading);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+
+  console.log('tasks', tasks);
 
   const getFilteredTasks = () => {
     dispatch(
@@ -105,7 +107,7 @@ function TasksList(props) {
               <>
                 <div ref={provided.innerRef}>
                   {tasks?.results?.map((item) => (
-                    <TaskListItem data={item} index={item.order} key={item.id} />
+                    <TaskListItem item={item} index={item.order} key={item.id} />
                   ))}
                 </div>
                 {provided.placeholder}
@@ -114,7 +116,7 @@ function TasksList(props) {
           </Droppable>
         </DragDropContext>
       </List>
-      {tasks?.totalCount > 10 && (
+      {tasks?.totalResults > 20 && (
         <TablePagination
           className="shrink-0 border-t-1"
           component="div"

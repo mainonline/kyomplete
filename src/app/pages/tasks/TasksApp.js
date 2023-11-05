@@ -1,7 +1,7 @@
 import KyoPageSimple from '@kyo/core/KyoPageSimple';
 import withReducer from 'app/store/withReducer';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@kyo/hooks';
 import { styled } from '@mui/material/styles';
@@ -14,7 +14,7 @@ import LabelsDialog from './dialogs/labels/LabelsDialog';
 import reducer from './store';
 import { getTags } from './store/tagsSlice';
 import { getTasks } from './store/tasksSlice';
-import { getLabels } from './store/labelsSlice';
+import { getLabels, selectLeftSidebarOpen, closeLeftSidebar } from './store/labelsSlice';
 import { getProjects } from './store/projectsSlice';
 import { getUsers } from './store/usersSlice';
 
@@ -28,13 +28,13 @@ function TasksApp(props) {
   const dispatch = useDispatch();
   const pageLayout = useRef(null);
   const routeParams = useParams();
+  const leftSidebarOpen = useSelector(selectLeftSidebarOpen);
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
 
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
-  const [leftSidebarOpen, setLeftSidebarOpen] = useState(!isMobile);
 
   useDeepCompareEffect(() => {
-    dispatch(getTasks());
+    dispatch(getTasks({}));
     dispatch(getTags());
     dispatch(getLabels());
     dispatch(getProjects());
@@ -60,9 +60,7 @@ function TasksApp(props) {
       rightSidebarOnClose={() => setRightSidebarOpen(false)}
       rightSidebarWidth={640}
       leftSidebarOpen={leftSidebarOpen}
-      leftSidebarOnClose={() => {
-        setLeftSidebarOpen(false);
-      }}
+      leftSidebarOnClose={() => dispatch(closeLeftSidebar())}
       leftSidebarContent={<Labels />}
       scroll={isMobile ? 'normal' : 'content'}
     />

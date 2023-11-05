@@ -13,7 +13,7 @@ const TaskModel = (data) =>
     dueDate: null,
     priority: 'low',
     tags: [],
-    members: null,
+    members: [],
     subTasks: [],
     parentTasks: [],
     order: 1,

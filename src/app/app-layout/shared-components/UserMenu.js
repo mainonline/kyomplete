@@ -35,9 +35,22 @@ function UserMenu(props) {
           <Typography component="span" className="font-semibold flex">
             {user.name}
           </Typography>
-          <Typography className="text-11 font-medium capitalize" color="text.secondary">
-            {user?.role?.toString()}
-          </Typography>
+          <div className="flex items-center">
+            <Typography className="text-11 font-medium capitalize mr-4" color="text.secondary">
+              {user?.role?.toString()}
+            </Typography>
+            <span>
+              {user?.isEmailVerified ? (
+                <SvgIcon size={14} color="success">
+                  heroicons-outline:shield-check
+                </SvgIcon>
+              ) : (
+                <SvgIcon size={14} color="warning">
+                  heroicons-outline:shield-exclamation
+                </SvgIcon>
+              )}
+            </span>
+          </div>
         </div>
 
         {user?.image?.url ? (

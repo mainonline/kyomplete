@@ -25,6 +25,7 @@ const labelsSlice = createSlice({
   name: 'tasksApp/labels',
   initialState: {
     labelsDialogOpen: false,
+    leftSidebarOpen: true,
     data: {},
   },
   reducers: {
@@ -34,6 +35,15 @@ const labelsSlice = createSlice({
     closeLabelsDialog: (state, action) => {
       state.labelsDialogOpen = false;
     },
+    openLeftSidebar: (state, action) => {
+      state.leftSidebarOpen = true;
+    },
+    closeLeftSidebar: (state, action) => {
+      state.leftSidebarOpen = false;
+    },
+    toggleLeftSidebar: (state, action) => {
+      state.leftSidebarOpen = !state.leftSidebarOpen;
+    },
   },
   extraReducers: {
     [getLabels.fulfilled]: (state, action) => {
@@ -42,8 +52,10 @@ const labelsSlice = createSlice({
   },
 });
 
-export const { openLabelsDialog, closeLabelsDialog } = labelsSlice.actions;
+export const { openLabelsDialog, closeLabelsDialog, closeLeftSidebar, openLeftSidebar, toggleLeftSidebar } =
+  labelsSlice.actions;
 
+export const selectLeftSidebarOpen = ({ tasksApp }) => tasksApp.labels.leftSidebarOpen;
 export const selectLabelsDialogOpen = ({ tasksApp }) => tasksApp.labels.labelsDialogOpen;
 export const selectLabels = ({ tasksApp }) => tasksApp.labels.data;
 

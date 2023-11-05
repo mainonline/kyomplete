@@ -32,9 +32,8 @@ class JwtService extends EventEmitter {
         return response;
       },
       (err) => {
-        return new Promise((resolve, reject) => {
-          if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
-            console.warn('JWT Refresh Token not found, logging out...');
+        return new Promise(() => {
+          if (err.response.status === 401) {
             // if you ever get an unauthorized response, logout the user
             this.emit('onAutoLogout', 'Invalid access_token');
             this.setSession(null);

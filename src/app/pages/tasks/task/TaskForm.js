@@ -50,19 +50,6 @@ const TaskForm = (props) => {
 
   const form = watch();
 
-  /**
-   * Update Task
-   */
-  // useDeepCompareEffect(() => {
-  //   if (!isValid || _.isEmpty(form) || !task || routeParams.id === 'new') {
-  //     return;
-  //   }
-  //
-  //   if (!_.isEqual(task, form)) {
-  //     onSubmit(form);
-  //   }
-  // }, [form, isValid]);
-
   useEffect(() => {
     if (routeParams.id === 'new') {
       dispatch(newTask(routeParams.type));

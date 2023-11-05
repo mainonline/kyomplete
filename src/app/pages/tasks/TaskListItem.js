@@ -1,6 +1,7 @@
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+import { useState } from 'react';
 import NavLinkAdapter from '@kyo/core/NavLinkAdapter';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { IconButton } from '@mui/material';
@@ -11,13 +12,26 @@ import { useDispatch } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 import clsx from 'clsx';
 import { updateTask } from './store/taskSlice';
+import TaskProgressSelector from './task/TaskProgressSelector';
 
 function TaskListItem(props) {
-  const { data, index } = props;
+  const { item, index } = props;
   const dispatch = useDispatch();
 
+  const [status, setStatus] = useState(item.status);
+
+  const handleChange = (v) => {
+    setStatus(v);
+
+    if (v === 'done') {
+      dispatch(updateTask({ id: item.id, status: v, completed: true }));
+    } else {
+      dispatch(updateTask({ id: item.id, status: v, completed: false }));
+    }
+  };
+
   return (
-    <Draggable draggableId={data.id} index={index} type="list">
+    <Draggable draggableId={item.id} index={index} type="list">
       {(provided, snapshot) => (
         <>
           <ListItem
@@ -25,7 +39,7 @@ function TaskListItem(props) {
             sx={{ bgcolor: 'background.paper' }}
             button
             component={NavLinkAdapter}
-            to={`/tasks/${data.id}`}
+            to={`/tasks/${item.id}`}
             ref={provided.innerRef}
             {...provided.draggableProps}
           >
@@ -39,51 +53,44 @@ function TaskListItem(props) {
             </div>
             <ListItemIcon className="min-w-40 -ml-10 mr-8">
               <IconButton
-                sx={{ color: data.completed ? 'green' : 'text.disabled' }}
+                sx={{ color: item.completed ? 'green' : 'text.disabled' }}
                 onClick={(ev) => {
                   ev.preventDefault();
                   ev.stopPropagation();
-                  dispatch(updateTask({ ...data, completed: !data.completed }));
+                  dispatch(updateTask({ ...item, completed: !item.completed }));
                 }}
               >
                 <SvgIcon>heroicons-outline:check-circle</SvgIcon>
               </IconButton>
             </ListItemIcon>
             <ListItemText
-              className={data.completed ? 'line-through' : ''}
+              className={item.completed ? 'line-through' : ''}
               classes={{ root: 'm-0', primary: 'truncate' }}
-              primary={data.title}
+              primary={item.title}
             />
-
-            <ListItemText
-              classes={{ root: 'm-0', primary: 'truncate' }}
-              className="rounded-full px-8 py-4 bg-gray-200 max-w-112 flex items-center justify-center text-center"
-              primary={data.status === 'todo' ? 'not started' : data.status}
-            />
-
-            {/* <ListItemText classes={{ root: 'm-0', primary: 'truncate' }} primary={data.order} /> */}
+            <TaskProgressSelector value={status} onChange={(v) => handleChange(v)} />
             <div className="flex items-center">
               <div>
-                {data.priority === 'low' && (
+                {item.priority === 'low' && (
                   <SvgIcon className="text-green icon-size-16 mx-12">
                     heroicons-outline:arrow-narrow-down
                   </SvgIcon>
                 )}
-                {data.priority === 'high' && (
+                {item.priority === 'high' && (
                   <SvgIcon className="text-red icon-size-16 mx-12">
                     heroicons-outline:arrow-narrow-up
                   </SvgIcon>
                 )}
-                {data.priority === 'medium' && (
+                {item.priority === 'medium' && (
                   <SvgIcon className="text-orange-400 icon-size-16 mx-12">
                     heroicons-outline:refresh
                   </SvgIcon>
                 )}
               </div>
 
-              {data.dueDate && (
+              {item.dueDate && (
                 <Typography className="text-12 whitespace-nowrap" color="text.secondary">
-                  {format(new Date(data.dueDate), 'LLL dd')}
+                  {format(new Date(item.dueDate), 'LLL dd')}
                 </Typography>
               )}
             </div>

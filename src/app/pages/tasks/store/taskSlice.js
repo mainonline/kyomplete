@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import history from '@history';
 import instance from 'src/api';
+import { showMessage } from 'app/store/kyo/messageSlice';
 import TaskModel from '../model/TaskModel';
 import { getTasks } from './tasksSlice';
 
@@ -23,9 +24,31 @@ export const addTask = createAsyncThunk(
     try {
       const response = await instance.post(`/tasks`, task);
       const data = await response.data;
+      dispatch(
+        showMessage({
+          variant: 'success',
+          message: 'Task added',
+          autoHideDuration: 2000,
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        })
+      );
       dispatch(getTasks({}));
       return data;
     } catch (error) {
+      dispatch(
+        showMessage({
+          variant: 'error',
+          message: error?.response?.data?.message || error?.message,
+          autoHideDuration: 2000,
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        })
+      );
       return error;
     }
   }
@@ -34,12 +57,38 @@ export const addTask = createAsyncThunk(
 export const updateTask = createAsyncThunk(
   'tasksApp/tasks/updateTask',
   async (task, { dispatch, getState }) => {
-    const response = await instance.patch(`/tasks`, task);
+    try {
+      const response = await instance.patch(`/tasks`, task);
 
-    const data = await response.data;
-    dispatch(getTasks({}));
+      const data = await response.data;
+      dispatch(
+        showMessage({
+          variant: 'success',
+          message: 'Task updated',
+          autoHideDuration: 2000,
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        })
+      );
+      dispatch(getTasks({}));
 
-    return data;
+      return data;
+    } catch (error) {
+      dispatch(
+        showMessage({
+          variant: 'error',
+          message: error?.response?.data?.message || error?.message,
+          autoHideDuration: 2000,
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        })
+      );
+      return error;
+    }
   }
 );
 
@@ -49,9 +98,31 @@ export const removeTask = createAsyncThunk(
     try {
       const response = await instance.delete(`/tasks/${taskId}`);
       const data = await response.data;
-      dispatch(getTasks());
+      dispatch(
+        showMessage({
+          variant: 'success',
+          message: 'Task removed',
+          autoHideDuration: 2000,
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        })
+      );
+      dispatch(getTasks({}));
       return data;
     } catch (error) {
+      dispatch(
+        showMessage({
+          variant: 'error',
+          message: error?.response?.data?.message || error?.message,
+          autoHideDuration: 2000,
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        })
+      );
       return error;
     }
   }

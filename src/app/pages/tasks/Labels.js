@@ -6,13 +6,16 @@ import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
 import { motion } from 'framer-motion';
+
 import { useDispatch, useSelector } from 'react-redux';
 import Autocomplete from '@mui/material/Autocomplete/Autocomplete';
 import Checkbox from '@mui/material/Checkbox/Checkbox';
 import _ from '@lodash';
 import TextField from '@mui/material/TextField';
 import { Controller, useForm } from 'react-hook-form';
-import { selectLabels } from './store/labelsSlice';
+import SvgIcon from '@kyo/core/SvgIcon';
+import IconButton from '@mui/material/IconButton';
+import { selectLabels, closeLeftSidebar } from './store/labelsSlice';
 import { selectProjects } from './store/projectsSlice';
 import { getTasks } from './store/tasksSlice';
 
@@ -53,6 +56,7 @@ function Labels(props) {
   const handleLabelClick = (labelId) => {
     setCurrentActiveLabelId(labelId);
     setSelectedLabelId(labelId);
+
     if (labelId) {
       dispatch(getTasks({ labels: labelId, projects: selectedProjects }));
     } else {
@@ -68,6 +72,13 @@ function Labels(props) {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
       >
+        <IconButton
+          className="m-4 absolute top-0 right-0 z-999"
+          onClick={() => dispatch(closeLeftSidebar())}
+          size="large"
+        >
+          <SvgIcon color="action">heroicons-outline:x</SvgIcon>
+        </IconButton>
         <Typography className="text-15 font-600 leading-none" color="secondary.main">
           PROJECTS
         </Typography>
@@ -93,9 +104,11 @@ function Labels(props) {
                 value={value ? value.map((id) => _.find(projects?.results, { id })) : []}
                 onChange={(event, newValue) => {
                   const ids = newValue.map((item) => item.id);
-                  dispatch(getTasks({ projects: newValue.length ? ids : '', labels: selectedLabelId }));
+                  dispatch(
+                    getTasks({ projects: newValue.length ? ids : '', labels: selectedLabelId })
+                  );
                   onChange(ids);
-                  setSelectedProjects(newValue.map((item) => item.id));
+                  setSelectedProjects(newValue.length ? newValue.map((item) => item.id) : '');
                 }}
                 fullWidth
                 renderInput={(params) => (
