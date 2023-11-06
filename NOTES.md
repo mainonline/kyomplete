@@ -1,23 +1,34 @@
-# KYO APP task management dashboard
+# Frontend/Backend
 
-## Frontend/Backend Notes
+*These notes pertain to both the frontend and backend parts of the app.*
 
-These notes relate to both the frontend and backend components of the app.
+Before commencing the development of any app, we conduct research to identify and analyze similar apps and platforms that are highly regarded by users. In my case, I drew inspiration from Notion, Trello, and Asana—widely used applications in their respective fields.
 
-Before commencing the development of any app, we conduct research to identify and analyze similar apps and platforms that are highly regarded by users. In my case, I drew inspiration from Notion, Trello, and Asana—widely used applications in their respective domains.
+## Tech Stack
 
-### Tech Stack
+For the backend, I used Node.js with the Express.js framework in TypeScript, along with MongoDB for the database.
 
-- **Backend**: I used Node.js with the Express.js framework in TypeScript, along with MongoDB for the database.
+For the frontend, I decided to use React.js with Material-UI (MUI) and Tailwind CSS. For state management, the best option was to use Redux Toolkit.
 
-- **Frontend**: I chose React.js, complemented by Material-UI (MUI) and Tailwind CSS. For state management, I found Redux Toolkit to be the most suitable choice.
+## Authorization
 
-### Authorization
+Based on the provided task, it was necessary to implement a user authorization system. I achieved this using JSON Web Tokens (jsonwebtoken), and I also integrated email notifications to users from the server using Nodemailer.
 
-As per the task requirements, implementing a robust user authorization system was essential. To achieve this, I employed JSON Web Tokens (jsonwebtoken), and I also integrated email notifications using Nodemailer to communicate with users from the server.
+## Future
 
-### Importance of User Experience and UI
+In the app, users should be able to create teams and send invitation links to other users, who can then join the team, project, and more. Additionally, notifications will be added.
 
-In product development, one of the most challenging aspects is to create simple and intuitive interfaces for even the most complex applications. To address this challenge, I incorporated interactive left and right sidebars to enhance the user experience.
+## Importance of User Experience and UI
 
-...more notes to come
+One of the most challenging aspects of product development is to create simple and intuitive interfaces, even for complex applications. To address this challenge, I decided to use interactive left and right sidebars.
+
+### In Progress
+
+- Implement error handling and display errors to users using toasts, snackbars, dialogs, and more so that users can understand their mistakes based on the errors they encounter.
+- Implement data filtering and sorting to help users easily find what they're searching for.
+
+### Future
+
+The main UI part involves loading pages. For tasks and other components, we have to implement loading state elements since all data coming from the database is asynchronous. Implement loading state management in Redux and develop components.
+
+...more notes coming soon 😄
