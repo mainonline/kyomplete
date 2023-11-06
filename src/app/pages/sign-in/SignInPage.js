@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import * as yup from 'yup';
 import Paper from '@mui/material/Paper';
 import _ from '@lodash';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 
@@ -52,13 +52,13 @@ function SignInPage() {
 
   const { isValid, dirtyFields, errors } = formState;
 
-  useEffect(() => {
-    setValue('emailOrLogin', 'joomart.online@gmail.com', {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-    setValue('password', 'zhomart1234', { shouldDirty: true, shouldValidate: true });
-  }, [setValue]);
+  // useEffect(() => {
+  //   setValue('emailOrLogin', 'joomart.online@gmail.com', {
+  //     shouldDirty: true,
+  //     shouldValidate: true,
+  //   });
+  //   setValue('password', 'zhomart1234', { shouldDirty: true, shouldValidate: true });
+  // }, [setValue]);
 
   function onSubmit({ emailOrLogin, password }) {
     jwtService
