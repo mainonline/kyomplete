@@ -91,6 +91,9 @@ class JwtService extends EventEmitter {
           } else {
             reject(response.data.error);
           }
+        })
+        .catch((error) => {
+          reject(error);
         });
     });
   };

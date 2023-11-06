@@ -5,6 +5,8 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
+import { useDispatch } from 'react-redux';
+import { showMessage } from 'app/store/kyo/messageSlice';
 import * as yup from 'yup';
 import Paper from '@mui/material/Paper';
 import _ from '@lodash';
@@ -36,6 +38,7 @@ const defaultValues = {
 };
 
 function SignInPage() {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -52,27 +55,22 @@ function SignInPage() {
 
   const { isValid, dirtyFields, errors } = formState;
 
-  // useEffect(() => {
-  //   setValue('emailOrLogin', 'joomart.online@gmail.com', {
-  //     shouldDirty: true,
-  //     shouldValidate: true,
-  //   });
-  //   setValue('password', 'zhomart1234', { shouldDirty: true, shouldValidate: true });
-  // }, [setValue]);
-
   function onSubmit({ emailOrLogin, password }) {
     jwtService
       .signInWithEmailAndPassword(emailOrLogin, password)
-      .then((user) => {
-        // No need to do anything, user data will be set at app/auth/AuthContext
-      })
-      .catch((_errors) => {
-        _errors.forEach((error) => {
-          setError(error.type, {
-            type: 'manual',
-            message: error.message,
-          });
-        });
+      .then(() => {})
+      .catch((error) => {
+        dispatch(
+          showMessage({
+            variant: 'error',
+            message: error?.response?.data?.message || error?.message,
+            autoHideDuration: 2000,
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+          })
+        );
       });
   }
 
